@@ -1,0 +1,68 @@
+footer {
+  height: 10 0vh;
+}
+
+.card {
+  margin: 0.5rem;
+}
+.carousel-item {
+  height: 80vh;
+}
+.figure-img-wrapper {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+}
+.figure:hover .figure-img-wrapper {
+  transform: scale(1.2);
+}
+.figure-img-wrapper {
+  width: 100%;
+  padding: 0.5rem;
+  height: 15em;
+}
+.img-wrapper {
+  width: 100%;
+  padding: 0.5rem;
+  height: 10em;
+}
+img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 1400px) {
+  .carousel {
+    grid-auto-columns: calc(100% / 5);
+  }
+  .col-xxl-2 {
+    width: 20%;
+  }
+  .card-title {
+    height: 10vh;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .carousel {
+    grid-auto-columns: calc(100% / 4);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .carousel {
+    grid-auto-columns: calc(100% / 3);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .carousel {
+    grid-auto-columns: calc(100% / 2);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .carousel {
+    grid-auto-columns: calc(100%);
+  }
+}
