@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import AuthService from "../services/auth.service";
 import CourseService from "../services/course.service";
 import CartService from "../services/cart.service";
@@ -17,6 +16,7 @@ import EnrollComponment from "./component/Enroll-component";
 
 function App() {
   let guest = { user: { _id: 0, username: "guest" } };
+
   let [currentUser, setCurrentUser] = useState(guest);
   let [data, setData] = useState([]);
   let [cartlist, setCartlist] = useState([]);
@@ -24,101 +24,51 @@ function App() {
   let [enrolllist, setEnrolllist] = useState([]);
   let [enrollDetail, setEnrollDetail] = useState([]);
 
-  const getCartList = async () => {
-    if (currentUser.user._id != 0) {
-      console.log(currentUser.user._id);
-      try {
-        let response = await CartService.getCart(currentUser.user._id);
-        console.log(response);
-        setCartlist(response.data.cartlist);
-        setCartDetail(response.data.cartDetail);
-        setEnrollDetail(response.data.enrollDetail);
-        setEnrolllist(response.data.enrolllist);
-      } catch (e) {
-        console.log(e);
-      }
+  const initUserData = async () => {
+    let response = await CartService.getCart(currentUser.user._id);
+    console.log(response.data.user);
+    if (response.status == 200) {
+      setEnrolllist(response.data.user.enrolllist.map((c) => c._id));
+      setCartlist(response.data.user.cartlist.map((c) => c._id));
+      setCartDetail(response.data.user.cartlist.map((c) => c));
+      setEnrollDetail(response.data.user.enrolllist.map((c) => c));
     }
   };
+
+  async function getUser() {
+    try {
+      if (AuthService.getCurrentUser() == null) {
+        let response = await AuthService.getGoogleUser();
+
+        if (response) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+          setCurrentUser(response.data);
+        } else {
+          setCurrentUser(guest);
+        }
+      } else if (AuthService.getCurrentUser() != null) {
+        setCurrentUser(AuthService.getCurrentUser());
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   const getData = async () => {
     try {
       let response = await CourseService.getCourse();
-      // console.log(response.data);
       setData(response.data);
     } catch (e) {
       console.log(e);
     }
   };
   useEffect(() => {
-    const getcurrentUser = async () => {
-      if (!localStorage.getItem("user")) {
-        try {
-          let response = await AuthService.getGoogleUser();
-          localStorage.setItem("user", JSON.stringify(response.data));
-        } catch (e) {
-          console.log(e);
-        }
-      }
-      setCurrentUser(AuthService.getCurrentUser());
-    };
-    getcurrentUser();
-  }, [currentUser]);
-  if (currentUser.user._id != 0) {
-    getCartList();
+    getUser();
     getData();
-  }
-  function handleChange(card) {
-    setData(
-      data.map((c) => {
-        if (c.id == card.id) {
-          return card;
-        } else {
-          return c;
-        }
-      })
-    );
-  }
-  async function handleDelete(id) {
-    try {
-      await CartService.deleteCartCourse(id);
-      setCartDetail(
-        cartDetail.filter((c) => {
-          return c._id != id;
-        })
-      );
-      setCartlist(
-        cartlist.filter((c) => {
-          return c != id;
-        })
-      );
-    } catch (e) {
-      console.log(e.response.data);
+    if (currentUser.user._id != 0) {
+      initUserData();
     }
-  }
-  async function handleAddCourse(id) {
-    try {
-      let response = await CartService.addToCart(id);
-      console.log(response);
-      setCartlist([...cartlist, id]);
-      window.alert("商品加入成功");
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  /*
-  console.log("課程資料");
-  console.log(data);
-  console.log("現在使用者");*/
-  console.log(currentUser); /*
-  console.log("現在使用者購物車列表");
-  console.log(cartlist);
-  console.log("現在使用者購物車明細");
-  console.log(cartDetail);
-  console.log("現在使用者註冊列表");
-  console.log(enrolllist);
-  console.log("現在使用者註冊明細");
-  console.log(enrollDetail);
-  */
-  console.log("進入app");
+  }, [currentUser.user._id]);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -129,23 +79,26 @@ function App() {
               currentUser={currentUser}
               setCurrentUser={setCurrentUser}
               cartlist={cartlist}
+              guest={guest}
             />
           }
         >
           {" "}
           <Route index element={<HomeCompoment />} />
-          <Route path="login" element={<LoginCompoment />} />
+          <Route
+            path="login"
+            element={<LoginCompoment setCurrentUser={setCurrentUser} />}
+          />
           <Route
             path="course"
             element={
               <CourseCompoment
                 currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
                 data={data}
-                setData={setData}
                 cartlist={cartlist}
+                setCartDetail={setCartDetail}
+                setCartlist={setCartlist}
                 enrolllist={enrolllist}
-                onAddCourse={handleAddCourse}
               />
             }
           />
@@ -159,13 +112,18 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 data={data}
                 setData={setData}
-                onChange={handleChange}
               />
             }
           />
           <Route
             path="postCourse"
-            element={<PostCourseComponment currentUser={currentUser} />}
+            element={
+              <PostCourseComponment
+                currentUser={currentUser}
+                data={data}
+                setData={setData}
+              />
+            }
           />
           <Route
             path="enroll"
@@ -182,8 +140,9 @@ function App() {
               <CartCompoment
                 currentUser={currentUser}
                 cartlist={cartlist}
+                setCartlist={setCartlist}
                 cartDetail={cartDetail}
-                onDelete={handleDelete}
+                setCartDetail={setCartDetail}
               />
             }
           />

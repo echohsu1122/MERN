@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../../services/auth.service";
 import googleLogo from "../assets/google.png";
 
-const LoginCompoment = () => {
+const LoginCompoment = ({ setCurrentUser }) => {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [message, setMessage] = useState("");
@@ -16,10 +16,8 @@ const LoginCompoment = () => {
     setPassword(e.target.value);
   };
   const handleLogin = async () => {
-    console.log("正在點擊登入");
     try {
       let response = await AuthService.login(email, password);
-      console.log(response);
       localStorage.setItem("user", JSON.stringify(response.data));
       window.alert("將重新導向至首頁");
       navigate("/");
@@ -29,7 +27,11 @@ const LoginCompoment = () => {
     }
   };
   const handleGoogleLogin = () => {
-    AuthService.googleLogin();
+    try {
+      AuthService.googleLogin();
+    } catch (e) {
+      setMessage(e.response.data);
+    }
   };
   return (
     <div className="container" style={{ padding: "3rem" }}>

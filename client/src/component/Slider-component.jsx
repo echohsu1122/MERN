@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { flushSync } from "react-dom";
 import gatsby from "../assets/slide_img/undraw_gatsbyjs_st4g.svg";
 import modern_art from "../assets/slide_img/undraw_modern_art_re_pff5.svg";
@@ -17,15 +17,19 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 export default function SliderComponent() {
   let selectRef = useRef(null);
   let [index, setIndex] = useState(0);
+
   visualViewport.addEventListener("resize", () => {
+    console.log("偵測visualViewport");
+
     if (!selectRef) {
       selectRef.current.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
-        inline: "start",
+        inline: "end",
       });
     }
   });
+
   function handleNext() {
     flushSync(() => {
       if (index < 9) {
@@ -37,7 +41,7 @@ export default function SliderComponent() {
     selectRef.current.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
-      inline: "start",
+      inline: "nearest",
     });
   }
   function handlePre() {
@@ -54,6 +58,8 @@ export default function SliderComponent() {
       inline: "end",
     });
   }
+  console.log(selectRef.current);
+  console.log(index);
   return (
     <div className="container position-relative">
       <div className="row flex-nowrap overflow-x-hidden ">

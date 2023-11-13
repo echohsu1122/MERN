@@ -6,7 +6,8 @@ export default function CartCompoment({
   currentUser,
   cartlist,
   cartDetail,
-  onDelete,
+  setCartlist,
+  setCartDetail,
 }) {
   let [sum, setSum] = useState(0);
 
@@ -20,15 +21,14 @@ export default function CartCompoment({
         setSum(count);
       }
     };
-
     getSum();
-  }, [cartDetail]);
-
+  }, []);
+  console.log(cartDetail);
   async function handleClick() {
     const response = await CartService.enroll();
     console.log(response);
   }
-
+  console.log(cartlist);
   let textContext;
   if (!currentUser) {
     textContext = <div style={{ padding: "3rem" }}>沒有權限</div>;
@@ -48,7 +48,12 @@ export default function CartCompoment({
       {textContext && textContext}
       {!textContext && cartDetail && (
         <div>
-          <CartlistComponent cartDetail={cartDetail} onDelete={onDelete} />
+          <CartlistComponent
+            cartlist={cartlist}
+            setCartlist={setCartlist}
+            cartDetail={cartDetail}
+            setCartDetail={setCartDetail}
+          />
           <h6>總金額:{sum}</h6>
           <button onClick={handleClick} className="btn btn-primary">
             註冊課程

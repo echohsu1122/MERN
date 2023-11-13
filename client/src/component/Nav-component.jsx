@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import authService from "../../services/auth.service";
 
-function NavComponent({ currentUser, setCurrentUser, cartlist }) {
+function NavComponent({ currentUser, cartlist }) {
   const handleLogout = () => {
     authService.logout();
     authService.googleLogout();
     window.alert("登出成功，將導向至首頁");
-    setCurrentUser(null);
   };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -99,7 +99,7 @@ function NavComponent({ currentUser, setCurrentUser, cartlist }) {
                   >
                     購物車
                     <span className="position-absolute top-0 start-100 badge rounded-pill bg-danger">
-                      {cartlist && cartlist.length}
+                      {cartlist.length}
                     </span>
                   </Link>
                 </li>

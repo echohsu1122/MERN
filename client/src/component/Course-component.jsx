@@ -1,17 +1,34 @@
+import CartService from "../../services/cart.service";
+
 export default function CourseCompoment({
+  currentUser,
   data,
   cartlist,
+  setCartlist,
+  setCartDetail,
   enrolllist,
-  onAddCourse,
 }) {
+  async function handleAddCourse(id) {
+    try {
+      let response = await CartService.addToCart(id);
+      console.log(response);
+      setCartlist(response.data.user.cartlist.map((c) => c._id));
+      setCartDetail(response.data.user.cartlist.map((c) => c));
+      window.alert("課程加入成功");
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  let newdata = data.filter((d) => currentUser.user._id != d.instructor);
+
   return (
     <div className="container">
       <div className="row">
         {data.length == 0 && (
           <div style={{ padding: "3rem" }}>目前沒有課程</div>
         )}
-        {data &&
-          data.map((d) => (
+        {newdata &&
+          newdata.map((d) => (
             <div
               key={d._id}
               data-id={d._id}
@@ -24,14 +41,16 @@ export default function CourseCompoment({
                 <h6 className="card-subtitle mb-2 text-body-secondary">
                   課程內容
                 </h6>
-                <p className="card-text">{d.description}</p>
+                <div style={{ height: "5rem" }}>
+                  <p className="card-text">{d.description}</p>
+                </div>
                 <p className="card-text">價格:{d.price}</p>
                 <div className="d-grid justify-md-end">
                   <button
                     key={d._id}
                     data-id={d._id}
                     onClick={() => {
-                      onAddCourse(d._id);
+                      handleAddCourse(d._id);
                     }}
                     className={
                       enrolllist.includes(d._id)

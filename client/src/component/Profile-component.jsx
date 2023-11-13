@@ -1,12 +1,22 @@
 import { useState } from "react";
 import CourseService from "../../services/course.service";
 
-export default function ProfileCompoment({ currentUser, data, onChange }) {
+export default function ProfileCompoment({ currentUser, data, setData }) {
   let [revise, setRevise] = useState(false);
 
+  function handleChange(card) {
+    setData(
+      data.map((c) => {
+        if (c.id == card.id) {
+          return card;
+        } else {
+          return c;
+        }
+      })
+    );
+  }
   const hadleDeletCourse = async (e) => {
     let { id } = e.target.dataset;
-
     try {
       await CourseService.deleteCourse(id);
       window.alert("課程刪除成功");
@@ -59,7 +69,7 @@ export default function ProfileCompoment({ currentUser, data, onChange }) {
                 {revise ? (
                   <input
                     onChange={(e) => {
-                      onChange({ ...d, title: e.target.value });
+                      handleChange({ ...d, title: e.target.value });
                     }}
                     className="form-control "
                     value={d.title}
@@ -71,7 +81,7 @@ export default function ProfileCompoment({ currentUser, data, onChange }) {
                 {revise ? (
                   <textarea
                     onChange={(e) => {
-                      onChange({ ...d, description: e.target.value });
+                      handleChange({ ...d, description: e.target.value });
                     }}
                     value={d.description}
                     className="form-control"
@@ -84,7 +94,7 @@ export default function ProfileCompoment({ currentUser, data, onChange }) {
                 {revise ? (
                   <input
                     onChange={(e) => {
-                      onChange({ ...d, price: e.target.value });
+                      handleChange({ ...d, price: e.target.value });
                     }}
                     className="form-control mb-2 "
                     value={d.price}

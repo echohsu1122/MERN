@@ -1,19 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthService from "../../services/course.service";
-function PostCourseComponment({ currentUser }) {
+import CourseService from "../../services/course.service";
+function PostCourseComponment({ currentUser, data, setData }) {
   let navigate = useNavigate();
   let [title, setTitle] = useState("");
   let [description, setDescription] = useState("");
   let [price, setPrice] = useState("");
+  let [message, setMessage] = useState("");
+
   const handlePost = () => {
-    AuthService.post({ title, description, price })
-      .then(() => {
-        window.alert("建立成功，將導向至'所有課程");
+    CourseService.post({ title, description, price })
+      .then((res) => {
+        setData([...data, res.data.saveCourse]);
+        window.alert("建立成功，將導向至所有課程");
         navigate("/course");
       })
       .catch((e) => {
-        console.log(e);
+        setMessage(e.response.data);
       });
   };
   return (
@@ -23,6 +26,7 @@ function PostCourseComponment({ currentUser }) {
       )}
       {currentUser.user._id != 0 && (
         <div className="container w-50 mt-3">
+          {message && <div className="text-danger">{message}</div>}
           <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">
               課程名稱

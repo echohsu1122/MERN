@@ -24,7 +24,11 @@ router.use((req, res, next) => {
 router.post("/login", async (req, res) => {
   let { error } = loginVaildation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-  const user = await User.findOne({ email: req.body.email }).exec();
+
+  const user = await User.findOne({ email: req.body.email })
+    .populate("cartlist")
+    .populate("enrolllist")
+    .exec();
   if (!user) return res.status(401).send("此信箱尚未註冊過");
 
   user.comparePassword(req.body.password, (err, isMath) => {
@@ -39,12 +43,7 @@ router.post("/login", async (req, res) => {
       return res.send({
         message: "登入成功",
         token: "JWT " + token,
-        user: {
-          _id: user._id,
-          username: user.username,
-          email: user.email,
-          googleId: user.googleId,
-        },
+        user,
       });
     } else {
       return res.status(401).send("密碼輸入錯誤");
@@ -144,7 +143,7 @@ router.get(
   passport.authenticate("google", {
     successMessage: "登入成功",
     successRedirect: CLIENT_URL,
-    failureRedirect: CLIENT_URL + "/login/failed",
+    failureRedirect: CLIENT_URL + "login/failed",
   })
 );
 
@@ -153,7 +152,7 @@ router.get("/login/success", (req, res) => {
     let user = req.user;
     const tokenObj = { _id: user._id, email: user.email };
     const token = jwt.sign(tokenObj, process.env.PASSPORT_SECRET);
-    return res.send({ message: "成功登入", token: "JWT " + token, user });
+    return res.send({ message: "成功登入", token: token, user });
   } else {
     console.log("not auth");
   }

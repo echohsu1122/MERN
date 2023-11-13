@@ -59,7 +59,7 @@ router.post(
 
       return res.send({ message: "課程儲存成功", saveCourse });
     } catch (e) {
-      return res.status(500).send("無法建立課程");
+      return res.status(500).send(e.response.data);
     }
   }
 );

@@ -1,4 +1,28 @@
-export default function CartlistComponent({ onDelete, cartDetail }) {
+import CartService from "../../services/cart.service";
+export default function CartlistComponent({
+  cartlist,
+  cartDetail,
+  setCartlist,
+  setCartDetail,
+}) {
+  async function handleDelete(id) {
+    try {
+      await CartService.deleteCartCourse(id);
+      setCartDetail(
+        cartDetail.filter((c) => {
+          return c._id != id;
+        })
+      );
+      setCartlist(
+        cartlist.filter((c) => {
+          return c != id;
+        })
+      );
+    } catch (e) {
+      console.log(e.response.data);
+    }
+  }
+
   return (
     <div style={{ paddingTop: "3rem" }}>
       {cartDetail &&
@@ -16,7 +40,7 @@ export default function CartlistComponent({ onDelete, cartDetail }) {
                 type="button"
                 className="btn-close "
                 onClick={() => {
-                  onDelete(d._id);
+                  handleDelete(d._id);
                 }}
               ></button>
             </div>

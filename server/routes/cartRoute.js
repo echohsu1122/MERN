@@ -10,21 +10,13 @@ router.use((req, res, next) => {
 //使用者購物車內容 app->course->cart
 router.get("/:_id", async (req, res) => {
   let { _id } = req.params;
-
   try {
-    let cartlist = req.user.cartlist.map((c) => c.toString());
-    let enrolllist = req.user.enrolllist.map((c) => c.toString());
     let foundUser = await User.findOne({ _id })
       .populate("cartlist")
       .populate("enrolllist")
       .exec();
 
-    return res.send({
-      cartlist: cartlist,
-      cartDetail: foundUser.cartlist,
-      enrolllist: enrolllist,
-      enrollDetail: foundUser.enrolllist,
-    });
+    return res.status(200).send({ user: foundUser });
   } catch (e) {
     return res.send(e);
   }
@@ -36,20 +28,20 @@ router.post("/:_id", async (req, res) => {
   let userId = req.user._id.toString();
   try {
     let foundCourse = await Course.findOne({ _id });
-    let foundUser = await User.findOne({ _id: userId });
+    let foundUser = await User.findOne({ _id: userId })
+      .populate("cartlist")
+      .populate("enrolllist")
+      .exec();
     if (!foundCourse) return res.send({ message: "查無課程" });
     if (!foundUser) return res.send({ message: "查無使用者" });
-    if (foundCourse && foundUser) {
-      foundUser.cartlist.push(_id);
-      await foundUser.save();
-      return res.send({ message: "加入成功", user: foundUser });
-    } else {
-      return res.send({
-        message: "error",
-        course: foundCourse,
-        user: foundUser,
-      });
-    }
+
+    foundUser.cartlist.push(foundCourse);
+    let newUser = await foundUser.save();
+
+    return res.send({
+      message: "加入成功",
+      user: newUser,
+    });
   } catch (e) {
     return res.send(e);
   }

@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
   googleId: {
-    type: String,
+    type: Number,
     default: null,
   },
   username: {

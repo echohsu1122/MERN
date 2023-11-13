@@ -1,6 +1,7 @@
 export default function EnrollComponment({ currentUser, enrollDetail }) {
   console.log("進入enroll");
   console.log(enrollDetail);
+
   return (
     <div className="container">
       <div className="row">
