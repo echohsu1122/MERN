@@ -20,6 +20,7 @@ mongoose
   .catch((e) => {
     console.log(e);
   });
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
