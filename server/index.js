@@ -35,7 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(
   cors({
-    origin: "https://mern-coolschool.vercel.app/",
+    origin: "https://mern-coolschool.vercel.app",
     methods: "GET,POST,PUT,DELETE,PATCH",
     credentials: true,
   })
