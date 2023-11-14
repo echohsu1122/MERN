@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "http://localhost:8080/cart";
+const API_URL = "https://mern-api-nu-nine.vercel.app/cart";
 let token;
 if (localStorage.getItem("user")) {
   token = JSON.parse(localStorage.getItem("user")).token;
