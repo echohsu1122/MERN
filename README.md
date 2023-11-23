@@ -1,2 +1,2 @@
 # MERN
-demo:https://mern-api-nu-nine.vercel.app/
+demo:https://mern-coolschool.vercel.app
