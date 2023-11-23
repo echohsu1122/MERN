@@ -17,7 +17,8 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 export default function SliderComponent() {
   let selectRef = useRef(null);
   let [index, setIndex] = useState(0);
-
+  let nextRef = useRef(null);
+  let preRef = useRef(null);
   visualViewport.addEventListener("resize", () => {
     console.log("偵測visualViewport");
 
@@ -35,13 +36,13 @@ export default function SliderComponent() {
       if (index < 9) {
         setIndex(index + 1);
       } else {
-        setIndex(0);
+        setIndex(9);
       }
     });
     selectRef.current.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
-      inline: "nearest",
+      inline: "start",
     });
   }
   function handlePre() {
@@ -282,7 +283,10 @@ export default function SliderComponent() {
           </div>
         </div>
       </div>
-      <div className="position-absolute top-50 start-0 translate-middle-y text-black">
+      <div
+        className="position-absolute top-50 start-0 translate-middle-y text-black"
+        ref={preRef}
+      >
         <FontAwesomeIcon
           className="btn p-0"
           onClick={handlePre}
@@ -290,7 +294,10 @@ export default function SliderComponent() {
           size="2xl"
         />
       </div>
-      <div className="position-absolute top-50 end-0 translate-middle-y">
+      <div
+        className="position-absolute top-50 end-0 translate-middle-y"
+        ref={nextRef}
+      >
         <FontAwesomeIcon
           className="btn p-0"
           onClick={handleNext}
