@@ -1,2 +1,2 @@
 # MERN
-demo:[https://mern-coolschool.vercel.app]https://mern-coolschool.vercel.app/
+demo:https://mern-coolschool.vercel.app/
