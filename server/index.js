@@ -36,7 +36,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(
   cors({
-    origin: "https://mern-bice-eight.vercel.app/",
+    origin: "https://mern-bice-eight.vercel.app",
     methods: "GET,POST,PUT,DELETE,PATCH",
     credentials: true,
   })
