@@ -9,7 +9,7 @@ require("../config/passport")(passport);
 router.use((req, res, next) => {
   console.log("正在接收課程有關的請求");
   res.append("Access-Control-Allow-Origin", [
-    "https://mern-bice-eight.vercel.app/",
+    "https://mern-bice-eight.vercel.app",
   ]);
   res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   res.append("Access-Control-Allow-Headers", "Content-Type");
