@@ -7,8 +7,9 @@ const passport = require("passport");
 require("../config/passport")(passport);
 
 router.use((req, res, next) => {
-  console.log("正在接收課程有關的請求");
   res.header("Access-Control-Allow-Origin", "*");
+  console.log("正在接收課程有關的請求");
+
   next();
 });
 
