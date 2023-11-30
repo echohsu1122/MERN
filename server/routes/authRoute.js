@@ -13,8 +13,8 @@ const Joi = require("joi");
 const sendEmail = require("../sendEmail");
 
 //google
-const CLIENT_URL = "https://mern-coolschool.vercel.app/";
-
+const CLIENT_URL = "https://mern-coolschool.vercel.app";
+// const CLIENT_URL = "http://localhost:5173";
 router.use((req, res, next) => {
   console.log("正在接收auth的請求");
   next();
