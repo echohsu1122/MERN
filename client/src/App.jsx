@@ -39,7 +39,6 @@ function App() {
     try {
       if (AuthService.getCurrentUser() == null) {
         let response = await AuthService.getGoogleUser();
-
         if (response) {
           localStorage.setItem("user", JSON.stringify(response.data));
           setCurrentUser(response.data);
@@ -68,7 +67,7 @@ function App() {
       initUserData();
     }
   }, [currentUser.user._id]);
-
+  console.log(AuthService.getCurrentUser());
   return (
     <BrowserRouter>
       <Routes>
