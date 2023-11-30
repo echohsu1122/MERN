@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const API_URL = "https://mern-api-nu-nine.vercel.app/user";
-const API_URL = "http://localhost:8080/user";
+const API_URL = "https://mern-api-nu-nine.vercel.app/user";
+// const API_URL = "http://localhost:8080/user";
 class AuthService {
   login(email, password) {
     return axios.post(API_URL + "/login", { email, password });
