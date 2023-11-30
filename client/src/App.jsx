@@ -78,7 +78,6 @@ function App() {
               currentUser={currentUser}
               setCurrentUser={setCurrentUser}
               cartlist={cartlist}
-              guest={guest}
             />
           }
         >
