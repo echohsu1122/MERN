@@ -7,7 +7,10 @@ const passport = require("passport");
 require("../config/passport")(passport);
 
 router.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://mern-bice-eight.vercel.app"
+  );
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT,DELETE,PATCH");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   console.log("正在接收課程有關的請求");
