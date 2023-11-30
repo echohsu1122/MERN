@@ -38,6 +38,7 @@ app.use(
   cors({
     origin: "https://mern-bice-eight.vercel.app",
     methods: "GET,POST,PUT,DELETE,PATCH",
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
