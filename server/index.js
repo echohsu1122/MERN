@@ -34,14 +34,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(
+const options = [
   cors({
     origin: "https://mern-bice-eight.vercel.app",
     methods: "GET,POST,PUT,DELETE,PATCH",
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-  })
-);
+  }),
+];
+app.use(options);
 
 app.use("/user", authRoute);
 app.use("/course", courseRoute);

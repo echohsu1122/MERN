@@ -23,7 +23,8 @@ module.exports = (passport) => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://localhost:8080/user/auth/google/redirect",
+        callbackURL:
+          "https://mern-api-nu-nine.vercel.app/user/auth/google/redirect",
       },
       async (accessToken, refreshToken, profile, done) => {
         let foundUser = await User.findOne({ email: profile.emails[0].value });
