@@ -13,9 +13,15 @@ const Joi = require("joi");
 const sendEmail = require("../sendEmail");
 
 //google
-const CLIENT_URL = "https://mern-bice-eight.vercel.app/";
-// const CLIENT_URL = "http://localhost:5173";
+const CLIENT_URL = "http://localhost:5173/";
+
 router.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://mern-bice-eight.vercel.app"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   console.log("正在接收auth的請求");
   next();
 });
