@@ -7,8 +7,10 @@ const passport = require("passport");
 require("../config/passport")(passport);
 
 router.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT,DELETE,PATCH");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   console.log("正在接收課程有關的請求");
-
   next();
 });
 
@@ -16,7 +18,7 @@ router.use((req, res, next) => {
 router.get("/", async (req, res) => {
   try {
     let foundCoures = await Course.find({}).exec();
-    res.header("Access-Control-Allow-Origin", "*");
+
     return res.json(foundCoures);
   } catch (error) {
     return res.send({ error: error.response.data });
