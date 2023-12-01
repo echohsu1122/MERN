@@ -71,7 +71,7 @@ function App() {
     if (currentUser.user._id != 0) {
       initUserData();
     }
-  }, []);
+  }, [currentUser.user._id]);
   console.log(currentUser);
   return (
     <BrowserRouter>
