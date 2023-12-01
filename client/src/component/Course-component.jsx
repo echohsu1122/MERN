@@ -1,6 +1,7 @@
 import CartService from "../../services/cart.service";
 
 export default function CourseCompoment({
+  load,
   currentUser,
   data,
   cartlist,
@@ -24,10 +25,12 @@ export default function CourseCompoment({
   return (
     <div className="container">
       <div className="row">
-        {data.length == 0 && (
+        {load && <div style={{ padding: "3rem" }}>Loading...</div>}
+        {!load && data.lengrh == 0 && (
           <div style={{ padding: "3rem" }}>目前沒有課程</div>
         )}
-        {newdata &&
+        {!load &&
+          newdata &&
           newdata.map((d) => (
             <div
               key={d._id}

@@ -16,7 +16,7 @@ import EnrollComponment from "./component/Enroll-component";
 
 function App() {
   let guest = { user: { _id: 0, username: "guest" } };
-
+  let [load, setLoad] = useState(false);
   let [currentUser, setCurrentUser] = useState(guest);
   let [data, setData] = useState([]);
   let [cartlist, setCartlist] = useState([]);
@@ -59,8 +59,12 @@ function App() {
   }
   const getData = async () => {
     try {
+      setLoad(true);
       let response = await CourseService.getCourse();
-      setData(response.data);
+      if (load) {
+        setData(response.data);
+      }
+      setLoad(false);
     } catch (e) {
       console.log(e);
     }
@@ -96,6 +100,7 @@ function App() {
             path="course"
             element={
               <CourseCompoment
+                load={load}
                 currentUser={currentUser}
                 data={data}
                 cartlist={cartlist}
