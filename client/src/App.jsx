@@ -34,17 +34,22 @@ function App() {
       setEnrollDetail(response.data.user.enrolllist.map((c) => c));
     }
   };
+  async function getGooler() {
+    let response = await AuthService.getGoogleUser();
+    console.log(response);
+    if (response.data.loginSuccess) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+      setCurrentUser(response.data);
+    } else {
+      setCurrentUser(guest);
+    }
+  }
 
   async function getUser() {
     try {
       if (AuthService.getCurrentUser() == null) {
-        let response = await AuthService.getGoogleUser();
-        if (response) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-          setCurrentUser(response.data);
-        } else {
-          setCurrentUser(guest);
-        }
+        console.log("確認google 登入");
+        getGooler();
       } else if (AuthService.getCurrentUser() != null) {
         setCurrentUser(AuthService.getCurrentUser());
       }
@@ -67,7 +72,7 @@ function App() {
       initUserData();
     }
   }, [currentUser.user._id]);
-  console.log(AuthService.getCurrentUser());
+
   return (
     <BrowserRouter>
       <Routes>

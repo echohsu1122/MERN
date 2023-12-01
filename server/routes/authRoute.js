@@ -154,13 +154,18 @@ router.get(
 );
 
 router.get("/login/success", (req, res) => {
+  console.log("login success ");
+  console.log(req.isAuthenticated());
   if (req.isAuthenticated()) {
     let user = req.user;
     const tokenObj = { _id: user._id, email: user.email };
     const token = jwt.sign(tokenObj, process.env.PASSPORT_SECRET);
-    return res.send({ message: "成功登入", token: token, user });
+    return res.send({ loginSuccess: true, token: token, user });
   } else {
     console.log("not auth");
+    return res.send({
+      loginSuccess: false,
+    });
   }
 });
 router.get("/login/failed", (req, res) => {
