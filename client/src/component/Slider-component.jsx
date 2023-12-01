@@ -58,8 +58,7 @@ export default function SliderComponent() {
       inline: "end",
     });
   }
-  console.log(selectRef.current);
-  console.log(index);
+
   return (
     <div className="container position-relative">
       <div className="row flex-nowrap overflow-x-hidden ">
