@@ -25,12 +25,10 @@ export default function CourseCompoment({
   return (
     <div className="container">
       <div className="row">
-        {load && <div style={{ padding: "3rem" }}>Loading...</div>}
-        {!load && data.lengrh == 0 && (
+        {data.lengrh == 0 && (
           <div style={{ padding: "3rem" }}>目前沒有課程</div>
         )}
-        {!load &&
-          newdata &&
+        {newdata &&
           newdata.map((d) => (
             <div
               key={d._id}
