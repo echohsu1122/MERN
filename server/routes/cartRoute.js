@@ -3,6 +3,12 @@ const Course = require("../models").course;
 const User = require("../models").user;
 let mongoose = require("mongoose");
 router.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://mern-bice-eight.vercel.app"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   console.log("正在接收購物車有關的請求");
   next();
 });
