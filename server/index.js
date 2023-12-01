@@ -47,7 +47,9 @@ app.use(options);
 app.use("/user", authRoute);
 app.use("/course", courseRoute);
 app.use("/cart", passport.authenticate("jwt", { session: false }), cartRoute);
-
+app.get("/", (Req, res) => {
+  res.send("hello vercel");
+});
 app.listen(8080, () => {
   console.log("server on port 8080");
 });
