@@ -21,7 +21,7 @@ export default function CourseCompoment({
     }
   }
   let newdata = data.filter((d) => currentUser.user._id != d.instructor);
-
+  console.log(load);
   return (
     <div className="container">
       <div className="row">
