@@ -63,8 +63,8 @@ function App() {
       let response = await CourseService.getCourse();
       if (load) {
         setData(response.data);
+        setLoad(false);
       }
-      setLoad(false);
     } catch (e) {
       console.log(e);
     }
