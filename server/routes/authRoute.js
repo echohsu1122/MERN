@@ -14,7 +14,10 @@ const jwt = require("jsonwebtoken");
 const CLIENT_URL = "https://mern-bice-eight.vercel.app";
 
 router.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://mern-bice-eight.vercel.app"
+  );
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
