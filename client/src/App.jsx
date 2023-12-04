@@ -36,6 +36,7 @@ function App() {
   };
   async function getGooler() {
     let response = await AuthService.getGoogleUser();
+    console.log("google 登入response");
     console.log(response);
     if (response.data.loginSuccess) {
       localStorage.setItem("user", JSON.stringify(response.data));

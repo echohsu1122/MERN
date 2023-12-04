@@ -92,11 +92,15 @@ router.get(
 );
 router.get(
   "/auth/google/redirect",
-  passport.authenticate("google", {
-    successMessage: "登入成功",
-    successRedirect: CLIENT_URL,
-    failureRedirect: CLIENT_URL + "/login/failed",
-  })
+  passport.authenticate(
+    "google",
+    {
+      failureRedirect: CLIENT_URL + "/login/failed",
+    },
+    (req, res) => {
+      res.redirect(CLIENT_URL);
+    }
+  )
 );
 
 router.get("/login/success", (req, res) => {
