@@ -13,7 +13,7 @@ const Joi = require("joi");
 const sendEmail = require("../sendEmail");
 
 //google
-const CLIENT_URL = "https://mern-bice-eight.vercel.app/";
+const CLIENT_URL = "https://mern-bice-eight.vercel.app";
 
 router.use((req, res, next) => {
   res.setHeader(
