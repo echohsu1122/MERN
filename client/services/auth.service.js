@@ -26,7 +26,7 @@ class AuthService {
 
   /*GOOGLE LOGIN */
   googleLogin() {
-    window.open(API_URL + "/auth/google", "_self");
+    window.open("https://mern-api-nu-nine.vercel.app/auth/google", "_self");
   }
   //發送get請求少了 { withCredentials: true }->沒辦法經過deserializeUser
   //加了-> 產生cors問題
@@ -45,13 +45,13 @@ class AuthService {
   }
   */
   getGoogleUser() {
-    return axios.get(API_URL + "/login/success", {
+    return axios.get("https://mern-api-nu-nine.vercel.app/login/success", {
       withCredentials: true,
     });
   }
   //改寫一下
   googleLogout() {
-    window.open(API_URL + "/logout", "_self");
+    window.open("https://mern-api-nu-nine.vercel.app/logout", "_self");
   }
 }
 
