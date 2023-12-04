@@ -7,7 +7,7 @@ dotenv.config();
 const authRoute = require("./routes/authRoute");
 const courseRoute = require("./routes/couresRoute");
 const cartRoute = require("./routes/cartRoute");
-
+const googleRoute = require("./routes/googleRoute");
 const passport = require("passport");
 const cors = require("cors");
 const session = require("express-session");
@@ -55,6 +55,7 @@ app.use(cors(corsConfig));
 app.options("", cors(corsConfig));
 
 app.use("/user", authRoute);
+app.use("/auth", googleRoute);
 app.use("/course", courseRoute);
 app.use("/cart", passport.authenticate("jwt", { session: false }), cartRoute);
 app.get("/", (req, res) => {
