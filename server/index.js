@@ -46,9 +46,10 @@ const options = [
 app.use(options);
 */
 const corsConfig = {
-  origin: "",
+  origin: ["https://mern-bice-eight.vercel.app"],
+  methods: "GET,POST,PUT,DELETE,PATCH",
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
 };
 app.use(cors(corsConfig));
 app.options("", cors(corsConfig));
