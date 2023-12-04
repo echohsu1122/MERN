@@ -20,6 +20,7 @@ router.use((req, res, next) => {
   );
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
   console.log("正在接收auth的請求");
   next();
