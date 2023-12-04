@@ -4,10 +4,10 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const authRoute = require("./routes/authRoute");
-const courseRoute = require("./routes/couresRoute");
-const cartRoute = require("./routes/cartRoute");
-const googleRoute = require("./routes/googleRoute");
+const authRoute = require("../routes/authRoute");
+const courseRoute = require("../routes/couresRoute");
+const cartRoute = require("../routes/cartRoute");
+const googleRoute = require("../routes/googleRoute");
 const passport = require("passport");
 const cors = require("cors");
 const session = require("express-session");
