@@ -36,7 +36,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 const options = [
   cors({
-    origin: "https://mern-bice-eight.vercel.app",
+    origin: ["https://mern-bice-eight.vercel.app"],
     methods: "GET,POST,PUT,DELETE,PATCH",
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -52,6 +52,7 @@ app.get("/", (req, res) => {
 });
 
 //google
+/*
 app.get(
   "/auth/google",
   passport.authenticate("google", {
@@ -99,7 +100,7 @@ app.get("/logout", (req, res) => {
     res.redirect(CLIENT_URL);
   });
 });
-
+*/
 app.listen(8080, () => {
   console.log("server on port 8080");
 });
