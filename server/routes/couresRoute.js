@@ -13,6 +13,7 @@ router.use((req, res, next) => {
   );
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   console.log("正在接收課程有關的請求");
   next();
 });
