@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const User = require("../models").user;
-const Token = require("../models").token;
+
 const registerVaildation = require("../vaildation").registerVaildation;
 const loginVaildation = require("../vaildation").loginVaildation;
 
@@ -9,8 +9,6 @@ require("../config/passport")(passport);
 require("../config/googlepassport")(passport);
 
 const jwt = require("jsonwebtoken");
-const Joi = require("joi");
-const sendEmail = require("../sendEmail");
 
 //google
 const CLIENT_URL = "https://mern-bice-eight.vercel.app";
@@ -84,58 +82,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//reset pwd 尚未完成
-router.post("/reset", async (req, res) => {
-  try {
-    const schema = Joi.object({ email: Joi.string().email().required() });
-    const { error } = schema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const foundUser = await User.findOne({ email: req.body.email });
-    if (!foundUser) return res.status(400).send("查無使用者");
-
-    let token = await Token.findOne({ userId: foundUser._id });
-    if (!token) {
-      const tokenObj = { _id: foundUser._id, email: foundUser.email };
-      token = await new Token({
-        userId: foundUser._id,
-        token: jwt.sign(tokenObj, process.env.PASSPORT_SECRET, {
-          expiresIn: "1d",
-        }),
-      }).save();
-    }
-    const link = `http://localhost:5173/user/reset/${foundUser._id}/${token.token}`;
-    await sendEmail(foundUser.email, "密碼變更通知信", link);
-    return res.send(link);
-  } catch (e) {
-    console.log(e);
-  }
-});
-
-router.post("/reset/:_id/:token", async (req, res) => {
-  try {
-    const schema = Joi.object({ password: Joi.string().min(6).required() });
-    const { error } = schema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const foundUser = await User.findOne({ _id: req.params._id });
-    if (!foundUser) return res.status(400).send("無效的連結");
-
-    let token = await Token.findOne({
-      userId: foundUser._id,
-      token: req.params.token,
-    });
-    if (!token) return res.status(400).send("無效的連結");
-
-    foundUser.password = req.body.password;
-    await foundUser.save();
-    await token.deleteOne();
-    return res.send({ message: "密碼修改成功", foundUser });
-  } catch (e) {
-    console.log(e);
-  }
-});
-
 //google
 router.get(
   "/auth/google",
@@ -149,7 +95,7 @@ router.get(
   passport.authenticate("google", {
     successMessage: "登入成功",
     successRedirect: CLIENT_URL,
-    failureRedirect: CLIENT_URL + "login/failed",
+    failureRedirect: CLIENT_URL + "/login/failed",
   })
 );
 
