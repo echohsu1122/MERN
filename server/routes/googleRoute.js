@@ -1,8 +1,4 @@
 const router = require("express").Router();
-const User = require("../models").user;
-
-const registerVaildation = require("../vaildation").registerVaildation;
-const loginVaildation = require("../vaildation").loginVaildation;
 
 const passport = require("passport");
 require("../config/passport")(passport);
