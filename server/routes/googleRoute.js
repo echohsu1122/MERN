@@ -30,15 +30,10 @@ router.get(
 );
 router.get(
   "/google/redirect",
-  passport.authenticate(
-    "google",
-    {
-      failureRedirect: CLIENT_URL + "/login/failed",
-    },
-    (req, res) => {
-      res.redirect(CLIENT_URL);
-    }
-  )
+  passport.authenticate("google", {
+    successRedirect: CLIENT_URL,
+    failureRedirect: CLIENT_URL + "/login/failed",
+  })
 );
 
 router.get("/login/success", (req, res) => {
