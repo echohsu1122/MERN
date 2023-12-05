@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { flushSync } from "react-dom";
 import gatsby from "../assets/slide_img/undraw_gatsbyjs_st4g.svg";
 import modern_art from "../assets/slide_img/undraw_modern_art_re_pff5.svg";
