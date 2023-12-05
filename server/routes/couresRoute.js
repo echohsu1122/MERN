@@ -21,10 +21,6 @@ router.get("/", async (req, res) => {
     return res.send({ error: error.response.data });
   }
 });
-//以下都需要身分驗證
-//根據user id 搜尋
-//訪客也可以加入購物車但在註冊那邊要進行身分驗證
-//根據課程id 加入購物車
 
 //根據使用者id搜尋的課程
 router.get(
@@ -84,13 +80,6 @@ router.patch(
           new: true,
           runValidators: true,
         });
-
-        /*
-        //原本寫foundCourse = req.body 會跳錯誤無法修改但實際上已經修改好了
-        foundCourse.title = req.body.title;
-        foundCourse.description = req.body.description;
-        foundCourse.price = req.body.price;
-        let updateCourse = await foundCourse.save();*/
 
         return res.send({ message: "課程修改成功", updateCourse });
       } else {

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../../services/auth.service";
 import googleLogo from "../assets/google.png";
 
-const LoginCompoment = ({ setCurrentUser }) => {
+const LoginCompoment = () => {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [message, setMessage] = useState("");

@@ -72,7 +72,7 @@ function App() {
       initUserData();
     }
   }, [currentUser.user._id]);
-  console.log(currentUser);
+
   return (
     <BrowserRouter>
       <Routes>

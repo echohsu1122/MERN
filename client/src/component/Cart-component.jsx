@@ -23,12 +23,12 @@ export default function CartCompoment({
     };
     getSum();
   }, []);
-  console.log(cartDetail);
+  // console.log(cartDetail);
   async function handleClick() {
     const response = await CartService.enroll();
     console.log(response);
   }
-  console.log(cartlist);
+  // console.log(cartlist);
   let textContext;
   if (!currentUser) {
     textContext = <div style={{ padding: "3rem" }}>沒有權限</div>;

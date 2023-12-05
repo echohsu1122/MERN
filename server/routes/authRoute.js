@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const User = require("../models").user;
-const Token = require("../models").token;
+
 const registerVaildation = require("../vaildation").registerVaildation;
 const loginVaildation = require("../vaildation").loginVaildation;
 
@@ -9,8 +9,6 @@ require("../config/passport")(passport);
 require("../config/googlepassport")(passport);
 
 const jwt = require("jsonwebtoken");
-const Joi = require("joi");
-const sendEmail = require("../sendEmail");
 
 //google
 const CLIENT_URL = "https://mernfrontend-3koa.onrender.com/";
@@ -78,58 +76,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//reset pwd 尚未完成
-router.post("/reset", async (req, res) => {
-  try {
-    const schema = Joi.object({ email: Joi.string().email().required() });
-    const { error } = schema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const foundUser = await User.findOne({ email: req.body.email });
-    if (!foundUser) return res.status(400).send("查無使用者");
-
-    let token = await Token.findOne({ userId: foundUser._id });
-    if (!token) {
-      const tokenObj = { _id: foundUser._id, email: foundUser.email };
-      token = await new Token({
-        userId: foundUser._id,
-        token: jwt.sign(tokenObj, process.env.PASSPORT_SECRET, {
-          expiresIn: "1d",
-        }),
-      }).save();
-    }
-    const link = `http://localhost:5173/user/reset/${foundUser._id}/${token.token}`;
-    await sendEmail(foundUser.email, "密碼變更通知信", link);
-    return res.send(link);
-  } catch (e) {
-    console.log(e);
-  }
-});
-
-router.post("/reset/:_id/:token", async (req, res) => {
-  try {
-    const schema = Joi.object({ password: Joi.string().min(6).required() });
-    const { error } = schema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const foundUser = await User.findOne({ _id: req.params._id });
-    if (!foundUser) return res.status(400).send("無效的連結");
-
-    let token = await Token.findOne({
-      userId: foundUser._id,
-      token: req.params.token,
-    });
-    if (!token) return res.status(400).send("無效的連結");
-
-    foundUser.password = req.body.password;
-    await foundUser.save();
-    await token.deleteOne();
-    return res.send({ message: "密碼修改成功", foundUser });
-  } catch (e) {
-    console.log(e);
-  }
-});
-
 //google
 router.get(
   "/auth/google",
@@ -174,38 +120,5 @@ router.get("/logout", (req, res) => {
     res.redirect(CLIENT_URL);
   });
 });
-//update password //根據使用者id修改密碼
-//需要經過passport-jwt驗證才可以修改 就是要驗證jwttoken
-//如果是忘記密碼而需要修改密碼時就沒辦法經過驗證了，id也沒辦法取得
-//只能用信箱查詢//如果只要知道信箱就可以改密碼也太智障了吧哈哈哈
-/*
-router.patch("/reset", async (req, res) => {
-  let email = req.body.email;
-  const userExist = await User.findOne({ email }).exec();
-  if (!userExist) return res.status(400).send("查無此用戶");
-  let _id = userExist._id;
-
-  try {
-    //Document change in MongoDB NOT IN MONGOOSE
-    await User.updateOne({ _id }, { password: req.body.password });
-    //This will update `doc` password to `req.body.password`, even though the doc changed.
-    userExist.password = req.body.password;
-    let updateUser = await userExist.save();
-
-    return res.send({
-      message: "密碼修改成功",
-      updateUser,
-    });
-  } catch (e) {
-    return res.status(500).send("無法儲存");
-  }
-});
-*/
-//delete account //刪除帳號的話要連課程也一起刪除耶
-
-/*
-router.get("/testApi", (req, res) => {
-  return res.send("成功連接使用者路由");
-});*/
 
 module.exports = router;
