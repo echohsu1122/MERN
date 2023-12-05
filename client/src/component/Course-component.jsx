@@ -10,11 +10,15 @@ export default function CourseCompoment({
 }) {
   async function handleAddCourse(id) {
     try {
-      let response = await CartService.addToCart(id);
-      console.log(response);
-      setCartlist(response.data.user.cartlist.map((c) => c._id));
-      setCartDetail(response.data.user.cartlist.map((c) => c));
-      window.alert("課程加入成功");
+      if (currentUser.user._id != 0) {
+        let response = await CartService.addToCart(id);
+        console.log(response);
+        setCartlist(response.data.user.cartlist.map((c) => c._id));
+        setCartDetail(response.data.user.cartlist.map((c) => c));
+        window.alert("課程加入成功");
+      } else {
+        window.alert("請先加入會員");
+      }
     } catch (e) {
       console.log(e);
     }
