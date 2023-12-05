@@ -13,7 +13,7 @@ const Joi = require("joi");
 const sendEmail = require("../sendEmail");
 
 //google
-const CLIENT_URL = "http://localhost:5173/";
+const CLIENT_URL = "https://mernfrontend-3koa.onrender.com/";
 
 router.use((req, res, next) => {
   console.log("正在接收auth的請求");
