@@ -9,18 +9,18 @@ export default function CourseCompoment({
   enrolllist,
 }) {
   async function handleAddCourse(id) {
-    if (currentUser._id == 0) {
-      window.alert("請先加入會員");
-    } else {
-      try {
+    try {
+      if (currentUser.user._id != 0) {
         let response = await CartService.addToCart(id);
         console.log(response);
         setCartlist(response.data.user.cartlist.map((c) => c._id));
         setCartDetail(response.data.user.cartlist.map((c) => c));
         window.alert("課程加入成功");
-      } catch (e) {
-        console.log(e);
+      } else {
+        window.alert("請先加入會員");
       }
+    } catch (e) {
+      console.log(e);
     }
   }
   let newdata = data.filter((d) => currentUser.user._id != d.instructor);
