@@ -11,7 +11,7 @@ const cartRoute = require("./routes/cartRoute");
 const passport = require("passport");
 const cors = require("cors");
 const session = require("express-session");
-
+const CLIENT_URL = "https://mernfrontend-3koa.onrender.com";
 mongoose
   .connect(process.env.MONGODB_CONNECTION)
   .then(() => {
@@ -36,12 +36,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(
   cors({
-    origin: "https://mernfrontend-3koa.onrender.com",
+    origin: CLIENT_URL,
     methods: "GET,POST,PUT,DELETE,PATCH",
     credentials: true,
   })
 );
-
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
 app.use("/user", authRoute);
 app.use("/course", courseRoute);
 app.use("/cart", passport.authenticate("jwt", { session: false }), cartRoute);
