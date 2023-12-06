@@ -146,6 +146,7 @@ function App() {
                 setCartlist={setCartlist}
                 cartDetail={cartDetail}
                 setCartDetail={setCartDetail}
+                setEnrollDetail={setEnrollDetail}
               />
             }
           />
