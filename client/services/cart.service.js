@@ -26,6 +26,7 @@ class CartService {
     } else {
       token = "";
     }
+
     return axios.post(
       `${API_URL}/${_id}`,
       {},

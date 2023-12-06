@@ -154,7 +154,8 @@ router.get("/login/success", (req, res) => {
     let user = req.user;
     const tokenObj = { _id: user._id, email: user.email };
     const token = jwt.sign(tokenObj, process.env.PASSPORT_SECRET);
-    return res.send({ loginSuccess: true, token: token, user });
+
+    return res.send({ loginSuccess: true, token: "JWT " + token, user });
   } else {
     console.log("not auth");
     return res.send({
