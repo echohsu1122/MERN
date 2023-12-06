@@ -5,7 +5,6 @@ function NavComponent({ currentUser, cartlist }) {
   const handleLogout = () => {
     authService.logout();
     authService.googleLogout();
-    window.alert("登出成功，將導向至首頁");
   };
 
   return (
