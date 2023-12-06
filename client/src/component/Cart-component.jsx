@@ -9,7 +9,6 @@ export default function CartCompoment({
   cartDetail,
   setCartlist,
   setCartDetail,
-  setEnrollDetail,
 }) {
   let [sum, setSum] = useState(0);
   let navigate = useNavigate();
