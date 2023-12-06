@@ -23,27 +23,32 @@ router.get("/:_id", async (req, res) => {
 });
 
 //加入購物車
-router.post("/:_id", async (req, res) => {
+router.post("/:_id", async (req, res, next) => {
   let { _id } = req.params;
   let userId = req.user._id.toString();
-  try {
-    let foundCourse = await Course.findOne({ _id });
-    let foundUser = await User.findOne({ _id: userId })
-      .populate("cartlist")
-      .populate("enrolllist")
-      .exec();
-    if (!foundCourse) return res.send({ message: "查無課程" });
-    if (!foundUser) return res.send({ message: "查無使用者" });
+  let validId = mongoose.isValidObjectId(_id);
+  if (validId) {
+    try {
+      let foundCourse = await Course.findOne({ _id });
+      let foundUser = await User.findOne({ _id: userId })
+        .populate("cartlist")
+        .populate("enrolllist")
+        .exec();
+      if (!foundCourse) return res.send({ message: "查無課程" });
+      if (!foundUser) return res.send({ message: "查無使用者" });
 
-    foundUser.cartlist.push(foundCourse);
-    let newUser = await foundUser.save();
+      foundUser.cartlist.push(foundCourse);
+      let newUser = await foundUser.save();
 
-    return res.send({
-      message: "加入成功",
-      user: newUser,
-    });
-  } catch (e) {
-    return res.send(e);
+      return res.send({
+        message: "加入成功",
+        user: newUser,
+      });
+    } catch (e) {
+      return res.send(e.response.data);
+    }
+  } else {
+    next();
   }
 });
 
