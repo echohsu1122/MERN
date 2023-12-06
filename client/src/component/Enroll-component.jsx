@@ -1,6 +1,12 @@
-export default function EnrollComponment({ currentUser, enrollDetail }) {
+export default function EnrollComponment({
+  currentUser,
+  enrollDetail,
+  initUserData,
+}) {
   console.log("進入enroll");
   console.log(enrollDetail);
+
+  initUserData();
 
   return (
     <div className="container">

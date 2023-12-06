@@ -134,6 +134,7 @@ function App() {
               <EnrollComponment
                 currentUser={currentUser}
                 enrollDetail={enrollDetail}
+                initUserData={initUserData}
               />
             }
           />
