@@ -72,12 +72,13 @@ router.patch("/:_id", async (req, res, next) => {
   }
 });
 //註冊課程
-router.patch("/enroll", async (req, res) => {
+router.post("/enroll", async (req, res) => {
   let userId = req.user._id;
   req.user.cartlist.map((c) => req.user.enrolllist.push(c));
   req.user.cartlist = [];
   try {
-    await req.user.save();
+    let response = await req.user.save();
+    res.send({ message: "註冊成功", user: response });
   } catch (e) {
     return res.send(e);
   }
