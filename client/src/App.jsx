@@ -26,7 +26,7 @@ function App() {
 
   const initUserData = async () => {
     let response = await CartService.getCart(currentUser.user._id);
-    console.log(response.data.user);
+    // console.log(response.data.user);
     if (response.status == 200) {
       setEnrolllist(response.data.user.enrolllist.map((c) => c._id));
       setCartlist(response.data.user.cartlist.map((c) => c._id));
@@ -47,7 +47,7 @@ function App() {
   async function getUser() {
     try {
       if (AuthService.getCurrentUser() == null) {
-        console.log("確認google 登入");
+        // console.log("確認google 登入");
         getGooler();
       } else if (AuthService.getCurrentUser() != null) {
         setCurrentUser(AuthService.getCurrentUser());

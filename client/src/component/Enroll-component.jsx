@@ -4,8 +4,8 @@ export default function EnrollComponment({
   initUserData,
 }) {
   initUserData();
-  console.log("進入enroll");
-  console.log(enrollDetail);
+  // console.log("進入enroll");
+  // console.log(enrollDetail);
 
   return (
     <div className="container">

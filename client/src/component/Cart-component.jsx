@@ -27,8 +27,8 @@ export default function CartCompoment({
   // console.log(cartDetail);
   async function handleClick() {
     try {
-      const response = await CartService.enrollCourse();
-      console.log(response);
+      await CartService.enrollCourse();
+      //console.log(response);
       window.alert("恭喜註冊成功");
       navigate("/enroll");
     } catch (e) {
