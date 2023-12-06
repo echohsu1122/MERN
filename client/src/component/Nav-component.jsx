@@ -3,11 +3,14 @@ import authService from "../../services/auth.service";
 
 function NavComponent({ currentUser, cartlist }) {
   const handleLogout = () => {
-    authService.logout();
-    authService.googleLogout();
-    window.alert("登出成功，將導向至首頁");
+    try {
+      authService.logout();
+      authService.googleLogout();
+    } catch (e) {
+      console.log(e);
+    }
   };
-
+  console.log(currentUser);
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
