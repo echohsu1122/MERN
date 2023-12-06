@@ -13,7 +13,7 @@ function PostCourseComponment({ currentUser, data, setData }) {
       .then((res) => {
         setData([...data, res.data.saveCourse]);
         window.alert("建立成功，將導向至所有課程");
-        navigate("/course");
+        navigate("/profile");
       })
       .catch((e) => {
         setMessage(e.response.data);

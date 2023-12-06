@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CartlistComponent from "./Cartlist-component";
 import CartService from "../../services/cart.service";
 
@@ -10,7 +11,7 @@ export default function CartCompoment({
   setCartDetail,
 }) {
   let [sum, setSum] = useState(0);
-
+  let navigate = useNavigate();
   useEffect(() => {
     const getSum = () => {
       let count = 0;
@@ -24,9 +25,16 @@ export default function CartCompoment({
     getSum();
   }, []);
   console.log(cartDetail);
+
   async function handleClick() {
-    const response = await CartService.enroll();
-    console.log(response);
+    try {
+      let response = await CartService.enrollCourse();
+      console.log(response);
+      window.alert("恭喜註冊成功");
+      navigate("/enroll");
+    } catch (e) {
+      console.log(e);
+    }
   }
   console.log(cartlist);
   let textContext;

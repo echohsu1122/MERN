@@ -23,27 +23,32 @@ router.get("/:_id", async (req, res) => {
 });
 
 //加入購物車
-router.post("/:_id", async (req, res) => {
+router.post("/:_id", async (req, res, next) => {
   let { _id } = req.params;
   let userId = req.user._id.toString();
-  try {
-    let foundCourse = await Course.findOne({ _id });
-    let foundUser = await User.findOne({ _id: userId })
-      .populate("cartlist")
-      .populate("enrolllist")
-      .exec();
-    if (!foundCourse) return res.send({ message: "查無課程" });
-    if (!foundUser) return res.send({ message: "查無使用者" });
+  let validId = mongoose.isValidObjectId(_id);
+  if (validId) {
+    try {
+      let foundCourse = await Course.findOne({ _id });
+      let foundUser = await User.findOne({ _id: userId })
+        .populate("cartlist")
+        .populate("enrolllist")
+        .exec();
+      if (!foundCourse) return res.send({ message: "查無課程" });
+      if (!foundUser) return res.send({ message: "查無使用者" });
 
-    foundUser.cartlist.push(foundCourse);
-    let newUser = await foundUser.save();
+      foundUser.cartlist.push(foundCourse);
+      let newUser = await foundUser.save();
 
-    return res.send({
-      message: "加入成功",
-      user: newUser,
-    });
-  } catch (e) {
-    return res.send(e);
+      return res.send({
+        message: "加入成功",
+        user: newUser,
+      });
+    } catch (e) {
+      return res.send(e);
+    }
+  } else {
+    next();
   }
 });
 
@@ -51,7 +56,8 @@ router.post("/:_id", async (req, res) => {
 router.patch("/:_id", async (req, res, next) => {
   let { _id } = req.params;
   let validId = mongoose.isValidObjectId(_id);
-
+  console.log("驗證購物車id");
+  console.log(validId);
   if (validId) {
     try {
       let foundUser = await User.findOne({ _id: req.user._id }).exec();
@@ -72,12 +78,13 @@ router.patch("/:_id", async (req, res, next) => {
   }
 });
 //註冊課程
-router.patch("/enroll", async (req, res) => {
+router.post("/enroll", async (req, res) => {
   let userId = req.user._id;
   req.user.cartlist.map((c) => req.user.enrolllist.push(c));
   req.user.cartlist = [];
   try {
-    await req.user.save();
+    let response = await req.user.save();
+    res.send({ message: "註冊成功" });
   } catch (e) {
     return res.send(e);
   }
@@ -99,4 +106,5 @@ router.patch("/enroll", async (req, res) => {
     console.log(e);
   }*/
 });
+
 module.exports = router;
