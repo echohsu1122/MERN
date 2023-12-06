@@ -30,7 +30,6 @@ export default function CartCompoment({
     try {
       const response = await CartService.enrollCourse();
       console.log(response);
-      setEnrollDetail(response.data.user.enrolllist.map((c) => c));
       window.alert("恭喜註冊成功");
       navigate("/enroll");
     } catch (e) {
