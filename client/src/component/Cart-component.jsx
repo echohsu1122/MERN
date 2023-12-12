@@ -23,7 +23,7 @@ export default function CartCompoment({
       }
     };
     getSum();
-  }, []);
+  }, [cartDetail]);
   // console.log(cartDetail);
   async function handleClick() {
     try {
