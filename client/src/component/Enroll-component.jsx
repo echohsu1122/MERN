@@ -16,7 +16,9 @@ export default function EnrollComponment({
         {currentUser.user._id != 0 && enrollDetail.length == 0 && (
           <div style={{ padding: "3rem" }}>目前沒有註冊的課程</div>
         )}
-        {currentUser && <h4 style={{ padding: "3rem" }}>您已經建立的課程:</h4>}
+        {currentUser && enrollDetail.length != 0 && (
+          <h6 style={{ padding: "3rem" }}>您已經建立的課程:</h6>
+        )}
         {currentUser &&
           enrollDetail.length != 0 &&
           enrollDetail.map((d) => (
