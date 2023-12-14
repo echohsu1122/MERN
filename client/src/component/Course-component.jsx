@@ -8,6 +8,7 @@ export default function CourseCompoment({
   setCartDetail,
   enrolllist,
   isLoad,
+  loadtime,
 }) {
   async function handleAddCourse(id) {
     try {
@@ -29,7 +30,9 @@ export default function CourseCompoment({
   return (
     <div className="container">
       <div className="row">
-        {isLoad && <div style={{ padding: "3rem" }}>正在載入中</div>}
+        {isLoad && (
+          <div style={{ padding: "3rem" }}>正在載入中...{loadtime}</div>
+        )}
         {!isLoad && data.length == 0 && (
           <div style={{ padding: "3rem" }}>目前沒有課程</div>
         )}

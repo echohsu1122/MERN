@@ -56,10 +56,14 @@ function App() {
       console.log(e);
     }
   }
+  let loadtime;
   const getData = async () => {
     try {
+      const start = Date.now();
       setIsLoad(true);
       let response = await CourseService.getCourse();
+      const finish = Date.now();
+      loadtime = (finish - start) / 1000;
       setData(response.data);
       setIsLoad(false);
     } catch (e) {
@@ -104,6 +108,7 @@ function App() {
                 setCartlist={setCartlist}
                 enrolllist={enrolllist}
                 isLoad={isLoad}
+                loadtime={loadtime}
               />
             }
           />
