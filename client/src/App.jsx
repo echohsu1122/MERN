@@ -23,7 +23,7 @@ function App() {
   let [cartDetail, setCartDetail] = useState([]);
   let [enrolllist, setEnrolllist] = useState([]);
   let [enrollDetail, setEnrollDetail] = useState([]);
-
+  let [isLoad, setIsLoad] = useState(false);
   const initUserData = async () => {
     let response = await CartService.getCart(currentUser.user._id);
     // console.log(response.data.user);
@@ -58,8 +58,10 @@ function App() {
   }
   const getData = async () => {
     try {
+      setIsLoad(true);
       let response = await CourseService.getCourse();
       setData(response.data);
+      setIsLoad(false);
     } catch (e) {
       console.log(e);
     }
@@ -101,6 +103,7 @@ function App() {
                 setCartDetail={setCartDetail}
                 setCartlist={setCartlist}
                 enrolllist={enrolllist}
+                isLoad={isLoad}
               />
             }
           />
