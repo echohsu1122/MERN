@@ -59,12 +59,9 @@ function App() {
   let loadtime;
   const getData = async () => {
     try {
-      const start = Date.now();
       setIsLoad(true);
       let response = await CourseService.getCourse();
       console.log(response);
-      const finish = Date.now();
-      loadtime = (finish - start) / 1000;
       setData(response.data);
       setIsLoad(false);
     } catch (e) {
@@ -75,6 +72,7 @@ function App() {
   useEffect(() => {
     getUser();
     getData();
+    console.log(data);
     if (currentUser.user._id != 0) {
       initUserData();
     }
