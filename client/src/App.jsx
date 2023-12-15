@@ -62,6 +62,7 @@ function App() {
       const start = Date.now();
       setIsLoad(true);
       let response = await CourseService.getCourse();
+      console.log(response);
       const finish = Date.now();
       loadtime = (finish - start) / 1000;
       setData(response.data);
@@ -70,6 +71,7 @@ function App() {
       console.log(e);
     }
   };
+  console.log(loadtime);
   useEffect(() => {
     getUser();
     getData();
